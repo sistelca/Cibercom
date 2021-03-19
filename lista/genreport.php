@@ -65,8 +65,6 @@ margin:0;
 <body class="oneColLiqCtrHdr">
 
 
-
-
 <div style="border-radius: 15px;" id="container">
 
 <table style="border-collapse: collapse;" align="center" width="600">
@@ -117,10 +115,9 @@ margin:0;
 		</form>
 	</td>
 </tr>
-</table>
+</table> 
 
 <hr>
-
 <div id="estado" style="display:none;border-radius:15px;"> <?php include_once("frm_status.php") ?> </div>
 <div id="ingresos" style="display:none;border-radius:15px;"> <?php include_once("frm_ingres.php") ?> </div>
 <div id="listado">  </div>

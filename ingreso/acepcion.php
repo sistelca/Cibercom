@@ -1,7 +1,9 @@
 <?php
 $_SESSION = array();
 session_destroy();
-session_start();
+session_start([
+    'cookie_lifetime' => 86400,
+]);
 //ini_set('display_errors','On');
 
 if(isset($_POST['salir'])) {

@@ -1,4 +1,0 @@
-Options -Indexes
-RewriteEngine On
-RewriteCond %{HTTPS} !on
-RewriteRule ^(.*)$ https://www.sistelca.com.ve/cibercom/$1 [R,L]

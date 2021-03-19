@@ -67,4 +67,41 @@ table .normal {
 background-color:#CEE3F6;
 }
 
+.twoColElsLtHdr #container { 
+	width: 46em; 
+	background: #FFFFFF;
+	margin: 0 auto; 
+	border: 1px solid #000000;
+	text-align: left; 
+} 
+.twoColElsLtHdr #header { 
+	background: #DDDDDD; 
+	padding: 0 10px; 
+} 
+.twoColElsLtHdr #header h1 {
+	margin: 0; 
+	padding: 10px 0; 
+}
 
+.twoColElsLtHdr #sidebar1 {
+	float: left; 
+	width: 12em; 
+	background: #EBEBEB; 
+	padding: 15px 0; 
+}
+.twoColElsLtHdr #sidebar1 h3, .twoColElsLtHdr #sidebar1 p {
+	margin-left: 10px; 
+	margin-right: 10px;
+}
+
+.twoColElsLtHdr #mainContent {
+	margin: 0 1.5em 0 13em; 
+} 
+.twoColElsLtHdr #footer { 
+	padding: 0 10px; 
+	background:#DDDDDD;
+} 
+.twoColElsLtHdr #footer p {
+	margin: 0; 
+	padding: 10px 0; 
+}

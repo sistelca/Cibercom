@@ -322,8 +322,8 @@ class Cliente extends Database
 			$que1 = "UPDATE datos_red SET fech_pag='$fereg' WHERE coduser='$codcliente'";
 
 			$que2 = "INSERT INTO histori_pags (coduser, fech_pag, cant_Bf, fech_venc,";
-			$que2.= " anfit, cod) VALUES ($codcliente, '$fecan1', $totalcnt, '$c_prxcrt',";
-			$que2.= " '$ip_bs', '$admin_r')";
+			$que2.= " anfit) VALUES ($codcliente, '$fecan1', $totalcnt, '$c_prxcrt',";
+			$que2.= " '$ip_bs')";
 
 			$que3 = "UPDATE datos_per SET fech_ing='$fecan1', fech_ven='$c_prxcrt'";
 			$que3.= " WHERE coduser='$codcliente'";
@@ -333,6 +333,11 @@ class Cliente extends Database
 			$ok1 = $this->ucliente->query($que1);
 			$ok2 = $this->ucliente->query($que2);
 			$ok3 = $this->ucliente->query($que3);
+			if ($ok2) {
+				echo $ok2;
+			} else {
+				echo $que2;
+			}
 
 			$ok4 = true;
 
