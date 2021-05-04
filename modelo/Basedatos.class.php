@@ -79,8 +79,8 @@ class Buscador extends Database
 
 	public function consultaclientesnombre($nombre, $apellido, $direccion) {
 
-		$buscador = "SELECT * FROM datos_per WHERE (nom_apell LIKE '%$nombre%' AND"; 			
-		$buscador.=" nom_apell LIKE '%$apellido%') OR (direcc LIKE '%$direccion%') "; 			
+		$buscador = "SELECT * FROM datos_per WHERE (nom_apell LIKE '%$nombre%' AND";
+		$buscador.=" nom_apell LIKE '%$apellido%') OR (direcc LIKE '%$direccion%') ";
 		$buscador.=" ORDER BY nom_apell";
 		return $buscador;
 	}
@@ -88,7 +88,7 @@ class Buscador extends Database
 	public function consultaclientesfecha($fecha) {
 
 		$buscador = "SELECT * FROM datos_per, datos_red WHERE fech_pag<'$fecha' and";
-		$buscador.= " datos_per.coduser=datos_red.coduser"; 
+		$buscador.= " datos_per.coduser=datos_red.coduser";
 		$buscador.= " GROUP BY datos_per.coduser ORDER BY nom_apell";
 		return $buscador;
 	}
@@ -311,7 +311,7 @@ class Cliente extends Database
 	}
 
 	public function que2dic(...$querys) {
-		include_once("./modelo/query2json.php");
+		include_once("query2json.php");
 		$queplus = "INSERT INTO  Actzl (instruc, firma)";
 		$datos_guardados = procesa($querys);
 		$firma = sha1($datos_guardados);
@@ -327,26 +327,6 @@ class Cliente extends Database
 
 		if ($val_or) {
 
-			//rpgo ="'fereg': $fereg, 'codcliente': $codcliente, 'totalcnt': $totalcnt, 'c_prxcrt': $c_prxcrt";
-			/*
-			$datos_guardados = json_encode(array(
-			     "datos_red" => array(
-			                  "op" => "UPDATE",
-			                  "fields" => array(
-			                                    'fech_pag' => $fereg)),
-			     "histori_pags" => array(
-			                   "op" => "INSERT INTO",
-			                   "fields" => array(
-			                                     'coduser'=> $codcliente,
-			                                     'fech_pag'=> $fecan1,
-			                                     'cant_Bf'=> $totalcnt,
-			                                     'fech_venc'=> $c_prxcrt)),
-			     "datos_per" => array(
-			     		   "op" => 'UPDATE',
-			     		   "fields" => array('fech_ing' => $fecan1,
-			                                     'fech_ven' => $c_prxcrt))));
-			// fin de diccionario */
-
 			$que1 = "UPDATE datos_red SET fech_pag='$fereg' WHERE coduser='$codcliente'";
 
 			$que2 = "INSERT INTO histori_pags (coduser, fech_pag, cant_Bf, fech_venc,";
@@ -356,9 +336,7 @@ class Cliente extends Database
 			$que3 = "UPDATE datos_per SET fech_ing='$fecan1', fech_ven='$c_prxcrt'";
 			$que3.= " WHERE coduser='$codcliente'";
 
-			//$firma = sha1($datos_guardados);
 
-			//$que4 = "INSERT INTO  Actzl (instruc, firma) VALUES ('$datos_guardados', '$firma')";
 			// proposal
 			$que4 = $this->que2dic($que1, $que2, $que3);
 			// esta ok en clitem

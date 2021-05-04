@@ -1,17 +1,6 @@
 <?php
 //ini_set('display_errors','On');
 
-// parametros
-$tablas = array('datos_per', 'datos_red', 'histori_pags');
-
-$instrucions = [ 'update' => ['set', 'where'],
-		 'insert into' => ['(', ') values'],
-		 'delete from' => ['where', 'todo']
-		];
-
-$acciones = listkeys($instrucions);
-
-
 function subcadena($query, $li, $ls='todo') {
 	if (!strpos($query, $li)){
 		return '';
@@ -46,13 +35,21 @@ function listkeys($array) {
 function fragmenta($query) {
 // todo query en este caso estara definido
 //  por tabla + accion + set + filtro
-    global $tablas;
-    global $acciones;
-    global $instrucions;
+    
+    // parametros
+    $tablas = array('datos_per', 'datos_red', 'histori_pags');
+    
+    $instrucions = [ 'update' => ['set', 'where'],
+                     'insert into' => ['(', ') values'],
+                     'delete from' => ['where', 'todo']
+                    ];
+
+    $acciones = listkeys($instrucions);
+
     $tabla = buscar($query, $tablas);
     $accion = buscar($query, $acciones);
     $set = subcadena($query,  $instrucions[$accion][0],  $instrucions[$accion][1]);
-    $filtro = subcadena($query, "where");
+    $filtro = subcadena($query,  $instrucions[$accion][1]);
     
     $locdic = [$tabla => ['op' => $accion, 'set' => $set, 'filtro' => $filtro]];
     return $locdic;
@@ -63,6 +60,7 @@ function procesa($querys) {
     $dicquery = array();
     
     foreach ($querys as $query) {
+    
     	$tbla = fragmenta(strtolower($query));
     	array_push($dicquery, $tbla);
     };
@@ -70,7 +68,7 @@ function procesa($querys) {
     $par_dic = json_encode($dicquery);
     $par_dic  = str_replace("},{", ", ", $par_dic);
     $pru = json_decode($par_dic);
-    return json_encode($pru[0]);
+    return str_replace("'", "\'", json_encode($pru[0]));
 }
 
 ?>
