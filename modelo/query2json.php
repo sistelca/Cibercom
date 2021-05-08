@@ -2,14 +2,15 @@
 //ini_set('display_errors','On');
 
 function subcadena($query, $li, $ls='todo') {
-	if (!strpos($query, $li)){
+	$query1 = strtolower($query);
+	if (!strpos($query1, $li)){
 		return '';
 	}
-	$posi = strpos($query, $li)+strlen($li);
+	$posi = strpos($query1, $li)+strlen($li);
 	if ( $ls != 'todo') {
-		$poss = strpos($query, $ls);
+		$poss = strpos($query1, $ls);
 	} else {
-		$poss = strlen($query);
+		$poss = strlen($query1);
 	}
 	return substr($query, $posi, $poss-$posi);
 }
@@ -46,8 +47,8 @@ function fragmenta($query) {
 
     $acciones = listkeys($instrucions);
 
-    $tabla = buscar($query, $tablas);
-    $accion = buscar($query, $acciones);
+    $tabla = buscar(strtolower($query), $tablas);
+    $accion = buscar(strtolower($query), $acciones);
     $set = subcadena($query,  $instrucions[$accion][0],  $instrucions[$accion][1]);
     $filtro = subcadena($query,  $instrucions[$accion][1]);
     
@@ -61,7 +62,7 @@ function procesa($querys) {
     
     foreach ($querys as $query) {
     
-    	$tbla = fragmenta(strtolower($query));
+    	$tbla = fragmenta($query);
     	array_push($dicquery, $tbla);
     };
 
