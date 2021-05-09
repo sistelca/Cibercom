@@ -17,11 +17,11 @@ function subcadena($query, $li, $ls='todo') {
 
 function buscar($query, $elementos) {
 	foreach ($elementos as $elemento) {
-		if ( stristr($query, $elemento) ) {
-			return $elemento;
-		};
+		if ( stristr($query, $elemento)) {
+			$strtmp = stristr($query, $elemento);
+			return substr($strtmp, 0, strlen($elemento));
+		}
 	}
-	return '';
 }
 
 function listkeys($array) {
@@ -47,10 +47,10 @@ function fragmenta($query) {
 
     $acciones = listkeys($instrucions);
 
-    $tabla = buscar(strtolower($query), $tablas);
-    $accion = buscar(strtolower($query), $acciones);
-    $set = subcadena($query,  $instrucions[$accion][0],  $instrucions[$accion][1]);
-    $filtro = subcadena($query,  $instrucions[$accion][1]);
+    $tabla = buscar($query, $tablas);
+    $accion = buscar($query, $acciones);
+    $set = subcadena($query,  $instrucions[strtolower($accion)][0],  $instrucions[strtolower($accion)][1]);
+    $filtro = subcadena($query,  $instrucions[strtolower($accion)][1]);
     
     $locdic = [$tabla => ['op' => $accion, 'set' => $set, 'filtro' => $filtro]];
     return $locdic;
