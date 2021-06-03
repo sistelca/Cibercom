@@ -3,7 +3,7 @@
 
 function subcadena($query, $li, $ls='todo') {
 	$query1 = strtolower($query);
-	if (!strpos($query1, $li)){
+	if (!strpos($query1, $li) or $li=='todo'){
 		return '';
 	}
 	$posi = strpos($query1, $li)+strlen($li);

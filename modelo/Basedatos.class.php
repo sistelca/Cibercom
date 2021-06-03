@@ -314,7 +314,7 @@ class Cliente extends Database
 		include_once("query2json.php");
 		$queplus = "INSERT INTO  Actzl (instruc, firma)";
 		$datos_guardados = procesa($querys);
-		$afir = implode("", $querys);
+		$afir = strtolower(implode("", $querys));
 		$firma = sha1($afir);
  		$queplus.= " VALUES ('$datos_guardados', '$firma')";
 		return $queplus;
