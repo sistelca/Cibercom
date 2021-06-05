@@ -1,4 +1,5 @@
 <?php
+
 class Database  
 {  
 	private $micon;
@@ -8,7 +9,7 @@ class Database
 	private $resultado;
 
 	public function conectar($validar=true) {  
-		$micon = new mysqli("localhost", "root", "prometea2008", "clientes"); // pruebas en clitem
+		$micon = new mysqli("localhost", "root", "prometea2008", "clientes");
 		if ($micon->connect_errno) {
 			echo "Fallo al contenctar a MySQL: " . $micon->connect_error;
 		}
@@ -79,8 +80,8 @@ class Buscador extends Database
 
 	public function consultaclientesnombre($nombre, $apellido, $direccion) {
 
-		$buscador = "SELECT * FROM datos_per WHERE (nom_apell LIKE '%$nombre%' AND";
-		$buscador.=" nom_apell LIKE '%$apellido%') OR (direcc LIKE '%$direccion%') ";
+		$buscador = "SELECT * FROM datos_per WHERE (nom_apell LIKE '%$nombre%' AND"; 			
+		$buscador.=" nom_apell LIKE '%$apellido%') OR (direcc LIKE '%$direccion%') "; 			
 		$buscador.=" ORDER BY nom_apell";
 		return $buscador;
 	}
@@ -88,7 +89,7 @@ class Buscador extends Database
 	public function consultaclientesfecha($fecha) {
 
 		$buscador = "SELECT * FROM datos_per, datos_red WHERE fech_pag<'$fecha' and";
-		$buscador.= " datos_per.coduser=datos_red.coduser";
+		$buscador.= " datos_per.coduser=datos_red.coduser"; 
 		$buscador.= " GROUP BY datos_per.coduser ORDER BY nom_apell";
 		return $buscador;
 	}
@@ -108,7 +109,7 @@ class Buscador extends Database
 
 		return $paquete;
 	}
-
+	
 	public function crearusuario() {
 		// crear registro de cliente
 
@@ -123,7 +124,7 @@ class Buscador extends Database
 			$this->ulistado->query("COMMIT;");
 		} else {
 			$this->ulistado->query("ROLLBACK;");
-		}
+		} 
 
 		// buscar nuevo registro y cargar codigo de usuario
 		$nuevocodigo = "SELECT coduser FROM datos_per WHERE nom_apell='nuevo usuario' and cedula='99.999.999'";
@@ -136,7 +137,7 @@ class Buscador extends Database
 		$iplibre = "SELECT * FROM datos_red WHERE coduser=0 and dir_ip like '192.168.45.%' LIMIT 1";
 		$registro = $this->ulistado->query($iplibre);
 		$reglibre = $registro->fetch_assoc();
-		$ipdispo = $reglibre["dir_ip"];
+		$ipdispo = $reglibre["dir_ip"]; 
 
 		// actualizar registro seleccionado para amarreip-mac
 
@@ -157,11 +158,11 @@ class Buscador extends Database
 			$this->ulistado->query("COMMIT;");
 		} else {
 			$this->ulistado->query("ROLLBACK;");
-		}
+		} 
 
 		return $usuario;
-	}
-
+	} 
+	
 
 	public function findeconex() {
 		parent::desconectar($this->ulistado);
@@ -242,7 +243,7 @@ class Cliente extends Database
 		} else {
 
 			$etique = array('Codigo de Usuario', 'Nombre', 'Cedula', 'Direccion', 'Telefono',
-			'Cuota Mensual (Bs.)');
+			'Cuota Mensual (Bs.F)');
 
 			//Info de campos de db
 			$info_depu = array($info_basica['coduser'], $info_basica['nom_apell'], 
@@ -250,7 +251,7 @@ class Cliente extends Database
 			$info_basica['cuota']);
 
 			$etiq_adic = array("Subred", "MAC");
-			$mx_long_ba = array(40, 15, 45, 15, 6);
+			$mx_long_ba = array(40, 15, 45, 15, 4);
 		}
 
 		$info_adic = array(); //acumulador de datos de pc
@@ -331,17 +332,11 @@ class Cliente extends Database
 			$que1 = "UPDATE datos_red SET fech_pag='$fereg' WHERE coduser='$codcliente'";
 
 			$que2 = "INSERT INTO histori_pags (coduser, fech_pag, cant_Bf, fech_venc,";
-			$que2.= " anfit, cod) VALUES ($codcliente, '$fecan1', $totalcnt, '$c_prxcrt',";
-			$que2.= " '$ip_bs', '$admin_r')";
+			$que2.= " anfit) VALUES ($codcliente, '$fecan1', $totalcnt, '$c_prxcrt',";
+			$que2.= " '$ip_bs')";
 
 			$que3 = "UPDATE datos_per SET fech_ing='$fecan1', fech_ven='$c_prxcrt'";
 			$que3.= " WHERE coduser='$codcliente'";
-
-
-			// proposal
-			$que4 = $this->que2dic($que1, $que2, $que3);
-			// esta ok en clitem
-
 
 			$this->ucliente->query("BEGIN;"); // inicio de transaccion
 
@@ -349,14 +344,17 @@ class Cliente extends Database
 			$ok2 = $this->ucliente->query($que2);
 			$ok3 = $this->ucliente->query($que3);
 
-			//$ok4 = true;
+			// proposal
+			$que4 = $this->que2dic($que1, $que2, $que3);
+			// esta ok en clitem
+
 			$ok4 = $this->ucliente->query($que4);
 
 			if ($ok1 and $ok2 and $ok3 and $ok4) {
 				$this->ucliente->query("COMMIT;");
 			} else {
 				$this->ucliente->query("ROLLBACK;");
-			}
+			} 
 
 		}
 
@@ -366,20 +364,20 @@ class Cliente extends Database
 
 		switch ($posicion_col) {
 		    case 1:
-			$campo  = "nom_apell";
-		        break;
+								$campo  = "nom_apell";
+		        	break;
 		    case 2:
                         $campo  = "cedula";
-		        break;
+		        	break;
 		    case 3:
                         $campo  = "direcc";
-		        break;
+		        	break;
 		    case 4:
-			$campo  = "telef";
-			break;
+								$campo  = "telef";
+					break;
 		    case 5:
-			$campo  = "cuota";
-			break;
+								$campo  = "cuota";
+					break;
 		}
 
 		$que  = "update datos_per set $campo='$cambio' where coduser='$coduser'";

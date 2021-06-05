@@ -67,7 +67,7 @@ Valmac = function()	{    // Cortesía de http://www.ejemplode.com
 	*/
 
 	var pr1= new Array("nom_apell", "cedula", "direcc", "telef", "cuota");
-	var pr2= new Array(/^([A-Za-z ñáéíóú]{6,40})$/, /^([0-9]{1,2}.[0-9]{3}.[0-9]{3})$/, /^([0-9A-Za-z \-#º()ñáéíóú]{6,40})$/, /^([0-9]{4}-[0-9]{7})$/, /^([0-9]{4,5})$/);
+	var pr2= new Array(/^([A-Za-z ñáéíóú]{6,40})$/, /^([0-9]{1,2}.[0-9]{3}.[0-9]{3})$/, /^([0-9A-Za-z \-#º()ñáéíóú]{6,40})$/, /^([0-9]{4}-[0-9]{7})$/, /^([0-9]{4,6})$/);
 	var dap = new Array();
 
 

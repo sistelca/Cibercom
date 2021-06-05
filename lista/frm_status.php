@@ -52,7 +52,7 @@ echo "<td align='left'> <input type='checkbox' name='cuot' />";
 echo " Cuota  </td>";
 echo "<td align='left'> <input name='cuot1' type='text' value='0' size='5' maxlength='5' /> ";
 echo "/"."&nbsp";
-echo "<input name='cuot2' type='text' value='30000' size='5' maxlength='5' /> </td>";
+echo "<input name='cuot2' type='text' value='3000000' size='5' maxlength='7' /> </td>";
 echo "<td align='center'> <input type='radio' name='ord' value='3' /> </td>";
 echo "</tr>";
 
