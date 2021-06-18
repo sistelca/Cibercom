@@ -13,7 +13,7 @@ class Database
 		if ($micon->connect_errno) {
 			echo "Fallo al contenctar a MySQL: " . $micon->connect_error;
 		}
-
+		$micon->set_charset("utf8");
 		if($validar) {
 			$usuario = $_SESSION['n_log'];
 			$esok = $_SESSION['admin_t'];
@@ -251,7 +251,7 @@ class Cliente extends Database
 			$info_basica['cuota']);
 
 			$etiq_adic = array("Subred", "MAC");
-			$mx_long_ba = array(40, 15, 45, 15, 4);
+			$mx_long_ba = array(40, 15, 45, 15, 7);
 		}
 
 		$info_adic = array(); //acumulador de datos de pc
@@ -360,6 +360,24 @@ class Cliente extends Database
 
 	}
 
+	public function comitguarda($peti) {
+
+		$que4 = $this->que2dic($peti);
+
+		$this->ucliente->query("BEGIN;"); // inicio de transaccion
+
+		$ok = $this->ucliente->query($peti);
+		//$ok4 = true;
+		$ok4 = $this->ucliente->query($que4);
+
+		if  ($ok and $ok4) {
+			$this->ucliente->query("COMMIT;");
+		} else {
+			$this->ucliente->query("ROLLBACK;");
+		} 
+
+	}
+
 	public function guardaredicionbas($cambio, $coduser, $posicion_col) {
 
 		switch ($posicion_col) {
@@ -381,7 +399,8 @@ class Cliente extends Database
 		}
 
 		$que  = "update datos_per set $campo='$cambio' where coduser='$coduser'";
-		$ok   = $this->ucliente->query($que);
+		//$ok   = $this->ucliente->query($que);
+		$this->comitguarda($que);
 	}
 
 	public function guardamac($nuevamac, $fecha, $usuario, $subred) {
@@ -394,13 +413,15 @@ class Cliente extends Database
 
 	public function modificarmac($nuevamac, $ipdestino) {
 		$que = "update datos_red set dir_mac='$nuevamac' where dir_ip='$ipdestino'";
-		$ok = $this->ucliente->query($que);
+		//$ok = $this->ucliente->query($que);
+		$this->comitguarda($que);
 	}
 
 	public function borrarmac($ipdestino) {
 		$que = "update datos_red set dir_mac='00:00:00:00:00:00', fech_pag='2008-01-01', coduser=0";
 		$que.= " where dir_ip='$ipdestino'";
-		$ok = $this->ucliente->query($que);
+		#$ok = $this->ucliente->query($que);
+		$this->comitguarda($que);
 	}
 
 	public function macvalida($ip, $mac) {
@@ -421,13 +442,18 @@ class Cliente extends Database
 		$que2="update datos_red set fech_pag='$fegua' where coduser='$cuser'";
 		$que3="update datos_per set fech_ven='$fve_ant', fech_ing='$fpa_ant' where coduser='$cuser'";
 
+		// proposal
+		$que4 = $this->que2dic($que1, $que2, $que3);
+		// esta ok en clitem
+
 		$this->ucliente->query("BEGIN;"); // inicio de transaccion
 
 		$ok1 = $this->ucliente->query($que1);
 		$ok2 = $this->ucliente->query($que2);
 		$ok3 = $this->ucliente->query($que3);
 
-		$ok4 = true;
+		#$ok4 = true;
+		$ok4 = $this->ucliente->query($que4);
 
 		if ($ok1 and $ok2 and $ok3 and $ok4) {
 			$this->ucliente->query("COMMIT;");
