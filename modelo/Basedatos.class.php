@@ -406,9 +406,10 @@ class Cliente extends Database
 	public function guardamac($nuevamac, $fecha, $usuario, $subred) {
 		$que ="update datos_red set dir_mac='$nuevamac', fech_pag='$fecha', coduser='$usuario'";
 		$que.=" where dir_ip like '$subred%' and coduser=0 limit 1";
-		if (!($this->ucliente->query($que))) {
+		$this->comitguarda($que);
+/* 		if (!($this->ucliente->query($que))) {
 			die ("No hay Ip disponibles en la subred");
-		}
+		} */
 	}
 
 	public function modificarmac($nuevamac, $ipdestino) {
