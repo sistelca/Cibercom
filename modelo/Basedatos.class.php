@@ -9,7 +9,7 @@ class Database
 	private $resultado;
 
 	public function conectar($validar=true) {  
-		$micon = new mysqli("localhost", "root", "prometea2008", "clientes");
+		$micon = new mysqli("localhost", "yyyyy", "xxxxxxx", "clixsdw");
 		if ($micon->connect_errno) {
 			echo "Fallo al contenctar a MySQL: " . $micon->connect_error;
 		}
