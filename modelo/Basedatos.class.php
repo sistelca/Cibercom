@@ -404,7 +404,20 @@ class Cliente extends Database
 	}
 
 	public function guardamac($nuevamac, $fecha, $usuario, $subred) {
-		$que ="update datos_red set dir_mac='$nuevamac', fech_pag='$fecha', coduser='$usuario'";
+
+                $quetmp ="select * from datos_red where dir_ip like '%subred%' and coduser=0 limit 1";
+                $registro =$this->ucliente->query($quetmp);
+                $reg = $registro->fetch_assoc();
+                $dip = $reg["dir_ip"];
+
+                if ($dip) {
+                     $que ="update datos_red set dir_mac='$nuevamac', fech_pag='$fecha', coduser='$usuario'";
+                     $que.=" where dir_ip='$dip'";
+                     $this->comitguarda($que);
+                }
+
+
+/*		$que ="update datos_red set dir_mac='$nuevamac', fech_pag='$fecha', coduser='$usuario'";
 		$que.=" where dir_ip like '$subred%' and coduser=0 limit 1";
 		$this->comitguarda($que);
 /* 		if (!($this->ucliente->query($que))) {
