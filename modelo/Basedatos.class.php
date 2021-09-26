@@ -9,7 +9,7 @@ class Database
 	private $resultado;
 
 	public function conectar($validar=true) {  
-		$micon = new mysqli("localhost", "yyyyy", "xxxxxxx", "clixsdw");
+		$micon = new mysqli("localhost", "root", "prometea2008", "clientes");
 		if ($micon->connect_errno) {
 			echo "Fallo al contenctar a MySQL: " . $micon->connect_error;
 		}
@@ -326,6 +326,7 @@ class Cliente extends Database
 		$ip_bs = $_SERVER['REMOTE_ADDR'];
 		$val_or = "$ip_bs=='192.168.35.69' or $ip_bs=='192.168.45.221' or $ip_bs='192.168.45.225'";
 		$val_or.= " or $ip_bs=='192.168.45.222' or $ip_bs=='192.168.45.224'";
+		$val_or.= " or substr($ip_bs, 0, 7)<>'192.168'";
 
 		if ($val_or) {
 
@@ -405,7 +406,7 @@ class Cliente extends Database
 
 	public function guardamac($nuevamac, $fecha, $usuario, $subred) {
 
-                $quetmp ="select * from datos_red where dir_ip like '%subred%' and coduser=0 limit 1";
+                $quetmp ="select * from datos_red where dir_ip like '%$subred%' and coduser=0 limit 1";
                 $registro =$this->ucliente->query($quetmp);
                 $reg = $registro->fetch_assoc();
                 $dip = $reg["dir_ip"];
@@ -415,8 +416,6 @@ class Cliente extends Database
                      $que.=" where dir_ip='$dip'";
                      $this->comitguarda($que);
                 }
-
-
 /*		$que ="update datos_red set dir_mac='$nuevamac', fech_pag='$fecha', coduser='$usuario'";
 		$que.=" where dir_ip like '$subred%' and coduser=0 limit 1";
 		$this->comitguarda($que);
